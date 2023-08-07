@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const PixelGrid = () => {
-  const [pixels, setPixels] = useState(2000);
+  const [pixels, setPixels] = useState(1000);
 
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -11,7 +11,7 @@ const PixelGrid = () => {
     // Check if user has scrolled to the bottom of the page
     if (scrollTop + windowHeight >= scrollHeight) {
       // Load the next set of 500 pixels, capped at 100000
-      setPixels((prevPixels) => Math.min(prevPixels + 500, 100000));
+      setPixels((prevPixels) => Math.min(prevPixels + 5000, 10000));
     }
   };
 

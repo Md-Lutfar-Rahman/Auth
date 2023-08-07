@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
         element:<PrivateRoute><BuyPixel></BuyPixel></PrivateRoute>
       },
       {
-        path:'/dashboard/manage-pixels',
+        path:'/dashboard/manage-pixels/:id',
         element:<PrivateRoute><ManagePixel></ManagePixel></PrivateRoute>
       }
     ]

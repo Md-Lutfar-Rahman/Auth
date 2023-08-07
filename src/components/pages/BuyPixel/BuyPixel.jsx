@@ -1,70 +1,180 @@
-// import React from 'react';
-import { useState } from "react";
-import { useContext } from "react";
-import { AuthContext } from "../../../AuthProvider/AuthProvider";
-
+import { useState, useEffect, useContext } from 'react';
+import payment from '../../../assets/payment.jfif';
+import { AuthContext } from '../../../AuthProvider/AuthProvider';
 const BuyPixel = () => {
-    
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
-    const [state, setState] = useState("");
-    const handleSubmit = (e) => {
-        e.preventDefault();
-   
-    console.log("Purchased!",name,email,address,city,state);
+  const [pixels, setPixels] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+const {user} = useContext(AuthContext)
+  useEffect(() => {
+    // Calculate the total amount based on the number of pixels
+    const calculateTotalAmount = () => {
+      const pixelPrice = 109; // Price per pixel in taka (BDT)
+      const amount = pixels * pixelPrice;
+      setTotalAmount(amount);
+    };
+
+    calculateTotalAmount();
+  }, [pixels]);
+
+  const handlePixelsChange = (e) => {
+    setPixels(e.target.value);
   };
-  const { user } = useContext(AuthContext);
-  console.log(user.email);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Create the payload to send to the server
+    const payload = {
+      username: e.target.username.value,
+      email: e.target.email.value,
+      phone: e.target.phone.value,
+      pixels,
+      totalAmount,
+      trxid: e.target.trxid.value,
+      // Add any other data you want to send to the server
+    };
+
+    // Make the POST request using the fetch API
+    fetch('http://localhost:3000/pixels', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the server, if needed
+        console.log('Data stored successfully:', data);
+
+        // You can also add logic here to display a success message or redirect the user
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error('Error storing data:', error);
+        // You can display an error message to the user or perform other error handling
+      });
+  };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-col mb-4">
+    <div className="bg-gray-200 w-full min-h-screen flex items-center justify-center">
+    <div className="w-full max-w-md mx-auto p-8">
+      <h2 className="text-2xl font-bold mb-4">BuyPixels Page</h2>
+      <form method="post" className="space-y-4" onSubmit={handleSubmit}>
+        <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+          <div className="flex flex-col w-full">
+            <label htmlFor="username" className="text-lg font-medium mb-2">
+              Username:
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder={user.displayName}
+              required
+              className="rounded-md border border-gray-300 px-3 py-2"
+            />
+          </div>
+
+          <div className="flex flex-col w-full">
+            <label htmlFor="email" className="text-lg font-medium mb-2">
+              Email:
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder={user.email}
+              required
+              className="rounded-md border border-gray-300 px-3 py-2"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+          <div className="flex flex-col w-full">
+            <label htmlFor="phone" className="text-lg font-medium mb-2">
+              Phone:
+            </label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              required
+              className="rounded-md border border-gray-300 px-3 py-2"
+            />
+          </div>
+
+          <div className="flex flex-col w-full">
+            <label htmlFor="pixels" className="text-lg font-medium mb-2">
+              Amount of Pixels:
+            </label>
+            <input
+              type="number"
+              id="pixels"
+              name="pixels"
+              required
+              className="rounded-md border border-gray-300 px-3 py-2"
+              onChange={handlePixelsChange}
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+          <div className="flex flex-col w-full">
+            <label htmlFor="totalAmount" className="text-lg font-medium mb-2">
+              Total Amount (Taka BDT):
+            </label>
+            <input
+              type="text"
+              id="totalAmount"
+              name="totalAmount"
+              value={totalAmount}
+              readOnly
+              className="rounded-md border border-gray-300 px-3 py-2"
+            />
+          </div>
+
+          <div className="flex flex-col w-full">
+            <label
+              htmlFor="payment_qrcode"
+              className="text-lg font-medium mb-2"
+            >
+              Payment QR Code:
+            </label>
+            <div className="mb-4">
+              {/* Display the QR code here for users to scan */}
+              <img
+                src={payment}
+                alt="Payment QR Code"
+                className="w-44 h-52"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col w-full">
+          <label htmlFor="trxid" className="text-lg font-medium mb-2">
+            Transaction ID:
+          </label>
           <input
             type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border-gray-300 rounded-md py-2 px-4"
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border-gray-300 rounded-md py-2 px-4"
-          />
-          <input
-            type="text"
-            placeholder="Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="border-gray-300 rounded-md py-2 px-4"
-          />
-          <input
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="border-gray-300 rounded-md py-2 px-4"
-          />
-          <input
-            type="text"
-            placeholder="State"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-            className="border-gray-300 rounded-md py-2 px-4"
+            id="trxid"
+            name="trxid"
+            required
+            className="rounded-md border border-gray-300 px-3 py-2"
           />
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md"
-        >
-          Purchase
-        </button>
+
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded w-full"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </div>
+  </div>
   );
 };
 

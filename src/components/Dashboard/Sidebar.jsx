@@ -31,7 +31,7 @@ const Sidebar = () => {
                                 <Link to={'/dashboard/profile'} className='text-white text-1xl mb-2 block'>Profile</Link>
                                 <Link to={'/dashboard/mypixels'} className='text-white text-1xl mb-2 block'>My Pixels</Link>
                                 <Link to={'/dashboard/buy-pixels'} className='text-white text-1xl mb-2 block'>Buy New Pixels</Link>
-                                <Link to={'/dashboard/manage-pixels'} className='text-white text-1xl mb-2 block'>Manage Pixels</Link>
+                               
                             </>
                         )
                 }
