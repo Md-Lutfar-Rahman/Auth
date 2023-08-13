@@ -10,6 +10,8 @@ import Profile from "../pages/Profile/Profile";
 import MyPixels from "../pages/MyPixels/MyPixels";
 import BuyPixel from "../pages/BuyPixel/BuyPixel";
 import ManagePixel from "../pages/ManagePixel/ManagePixel";
+import Edit from "../Dashboard/pages/User/Edit";
+import PixelsPayment from "../Dashboard/pages/pixel/PixelsPayment";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +47,10 @@ export const router = createBrowserRouter([
         element:<User></User>
       },
       {
+        path:'/dashboard/users/edit/:id',
+        element:<PrivateRoute><Edit></Edit> </PrivateRoute>
+      },
+      {
         path:'/dashboard/profile',
         element:<PrivateRoute><Profile></Profile></PrivateRoute>
       },
@@ -59,6 +65,10 @@ export const router = createBrowserRouter([
       {
         path:'/dashboard/manage-pixels/:id',
         element:<PrivateRoute><ManagePixel></ManagePixel></PrivateRoute>
+      },
+      {
+        path:'/dashboard/paymentStatus',
+        element:<PrivateRoute> <PixelsPayment></PixelsPayment> </PrivateRoute>
       }
     ]
   }

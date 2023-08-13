@@ -43,7 +43,7 @@ const User = () => {
                             <td className="px-4 py-3">Role: {user.role}</td>
                             <td className="px-4 py-3">
                                 <Link
-                                    to={`/users/edit/${user._id}`}
+                                    to={`/dashboard/users/edit/${user._id}`}
                                     className="text-blue-600 hover:underline"
                                 >
                                     Edit

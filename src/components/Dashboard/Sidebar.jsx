@@ -21,7 +21,7 @@ const Sidebar = () => {
                             <Link to={'/'} className='text-white text-1xl mb-2 block'>Home</Link>
                             <Link to={'/dashboard/users'} className='text-white text-1xl mb-2 block'>Users</Link>
                            
-                            <Link to={'/dashboard/payment'} className='text-white text-1xl mb-2 block'>Payment Status</Link>
+                            <Link to={'/dashboard/paymentStatus'} className='text-white text-1xl mb-2 block'>Payment Status</Link>
                             <Link to={'/dashboard/support-tickets'} className='text-white text-1xl mb-2 block'>Support Tikets</Link>
                             
                         </>
