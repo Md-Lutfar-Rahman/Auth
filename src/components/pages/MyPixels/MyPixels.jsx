@@ -72,12 +72,13 @@ const MyPixels = () => {
                     {pixel.status?"Active":"Deactive"}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <Link
+                    {pixel.status?<Link
                       to={`/dashboard/manage-pixels/${pixel._id}`}
                       className="text-blue-500 hover:underline"
+                      
                     >
                       Edit
-                    </Link>
+                    </Link>:"Wait for Activation"}
                   </td>
                   <td className="px-6 py-4 text-center">
                     <button className="text-red-500 hover:underline">

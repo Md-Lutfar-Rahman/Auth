@@ -1,38 +1,20 @@
-import  { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const Pixel = () => {
-  const [pixels, setPixels] = useState(500);
-
-  const handleScroll = () => {
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-    const windowHeight = window.innerHeight;
-
-    if (scrollTop + windowHeight >= scrollHeight) {
-      setPixels((prevPixels) => Math.min(prevPixels + 500, 100000)); // Load the next set of 500 pixels
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []); // Add scroll event listener on component mount
-
-  const renderPixels = () => {
-    const renderedPixels = [];
-    for (let i = 0; i < pixels; i++) {
-      renderedPixels.push(<div key={i} className="w-6 h-6 bg-black m-1"></div>);
-    }
-    return renderedPixels;
-  };
-
+const Pixels = ({ getpixels }) => {
+  let Cheight = 24 * parseInt(getpixels.pixels) + "px";
+  let Cwidth = 24 * parseInt(getpixels.pixels) + "px";
   return (
-    <div className="w-full">
-      <div className="flex flex-wrap justify-center">
-        {renderPixels()}
-      </div>
+    <div>
+      <Link to={getpixels.postLink} target="blank">
+        <img
+          src={ "http://localhost:3000/" + getpixels?.photo?.filename}
+          alt=""
+          className=" px-2"
+          style={{ width: Cwidth, height: "20px" }}
+        />
+      </Link>
     </div>
   );
 };
 
-export default Pixel;
+export default Pixels;

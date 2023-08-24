@@ -1,11 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import payment from "../../../assets/payment.jfif";
 import { AuthContext } from "../../../AuthProvider/AuthProvider";
+import { useNavigate } from "react-router";
 const BuyPixel = () => {
   const [pixels, setPixels] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const { user } = useContext(AuthContext);
   const [dbUser, setDbUser] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
     // Calculate the total amount based on the number of pixels
     const calculateTotalAmount = () => {
@@ -31,7 +33,7 @@ const BuyPixel = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-
+console.log(dbUser)
     // Create the payload to send to the server
     const payload = {
       userId: dbUser._id,
@@ -53,7 +55,7 @@ const BuyPixel = () => {
       .then((data) => {
         // Handle the response from the server, if needed
         console.log("Data stored successfully:", data);
-
+        navigate('/dashboard/mypixels');
         // You can also add logic here to display a success message or redirect the user
       })
       .catch((error) => {
